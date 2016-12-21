@@ -1,0 +1,59 @@
+/**
+ * All of the CSS for your public-facing functionality should be
+ * included in this file.
+ */
+.haj_hide {
+        display:                none;
+}
+.error {
+        color:                  #c00;
+}
+
+.haj_modal_wrapper {
+        display:                none;
+        position:               fixed;
+        z-index:                1;
+        left:                   0;
+        top:                    0;
+        width:                  100%;
+        height:                 100%;
+        overflow:               auto;
+        background-color:       #333;
+        background-color:       rgba(30,30,30,0.8);
+        text-align:             center;
+}
+.haj_modal_content {
+        position:               relative;
+        text-align:             left;
+        display:                inline-block;
+        background-color:       #eee;
+        margin:                 15% auto;
+        padding:                20px;
+        border:                 1px solid #333;
+        border-radius:          10px;
+}
+
+.haj_modal_content #haj_subscribe_form {
+        padding:                30px;
+}
+.haj_modal_content #haj_signup_form .label {
+        display:                inline-block;
+        width:                  100px;
+}
+.haj_modal_content #haj_signup_form button {
+        display:                block;
+        margin:                 20px auto 0px auto;
+}
+
+.haj_modal_close {
+        position:               absolute;
+        top:                    3px;
+        right:                  5px;
+        cursor:                 pointer;
+        font-size:              14px            !important;
+        line-height:            1em;
+}
+#haj_signup_form_message {
+        padding:                10px;
+        text-align:             center;
+}
