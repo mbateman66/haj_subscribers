@@ -177,6 +177,8 @@ class Haj_Subscribers_Admin {
 
 		$option='mailchimp_enable'; $option_label='Mailchimp Enable'; $option_type='checkbox';
 			$this->create_and_register_option($option,$option_label,$section,$option_type);
+		$option='mailchimp_double_optin'; $option_label='Mailchimp Double Opt-in'; $option_type='checkbox';
+			$this->create_and_register_option($option,$option_label,$section,$option_type);
 		$option='mailchimp_apikey'; $option_label='Mailchimp API Key'; $option_type='text';
 			$this->create_and_register_option($option,$option_label,$section,$option_type);
 		$option='mailchimp_listid'; $option_label='Mailchimp List ID'; $option_type='text';

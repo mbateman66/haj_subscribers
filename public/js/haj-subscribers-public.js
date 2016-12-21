@@ -31,9 +31,11 @@
 
 	/* Intialize */
 	$( document ).ready(function() {
-		s_id=haj_subscriber_get_cookie('haj_subscriber_id');
-		s_level=haj_subscriber_get_cookie('haj_subscriber_level');
-		if (s_level === null) { s_level = 0; console.log("Setting level to 0");}
+		if (! params) {
+		}
+		if (! params.id) { params.id = 0; console.log("Setting id to 0");}
+		if (! params.level) { params.level = 0; console.log("Setting level to 0");}
+		update_cookies();
 		refresh_show();
 
 		// Setup action and cursor for menu signup
@@ -47,13 +49,11 @@
 
 /* Globals */
 var info=null;
-var s_id=null;
-var s_level=null;
 
 
 /* Make an AJAX call */
 function do_ajax(what_to_do,contents) {
-	contents.s_id=s_id;
+	contents.s_id=params.id;
 	document.body.style.cursor = 'wait';
 	jQuery.ajax({
 		url:                    params.ajax_url,
@@ -69,11 +69,10 @@ function do_ajax(what_to_do,contents) {
 			what_was_done = data.what_was_done;
 			set_message(data.message,0);
 			if (what_was_done == 'subscribe') {
-				cookie_timeout = 24*180;
-				s_id=data.contents.s_id;
-				s_level=data.contents.s_level;
-				haj_subscriber_set_cookie('haj_subscriber_id',s_id,cookie_timeout);
-				haj_subscriber_set_cookie('haj_subscriber_level',s_level,cookie_timeout);
+				params.id=data.contents.id;
+				params.level=data.contents.level;
+				params.fname=data.contents.fname;
+				update_cookies();
 				do_hide_form();
 				refresh_show();
 			}
@@ -85,8 +84,13 @@ function do_ajax(what_to_do,contents) {
 	});
 }
 
+function update_cookies () {
+	cookie_timeout = 24*180;
+	haj_subscriber_set_cookie('haj_subscriber_id',params.id,cookie_timeout);
+}
+
 /* Do Button */
-var do_button=function(button) {
+function do_button(button) {
 	set_message("");
 	if (jQuery('#'+button).attr('disabled')) { return; }
 	if (button==            'submit_signup') {
@@ -124,7 +128,8 @@ function do_subscribe() {
 
 
 /* Check to see if level matches */
-function check_level(level,s_level,match) {
+function check_level(level,match) {
+	var s_level=params.level;
 	if (level === null) { return false; }
 	if (s_level === null) { s_level = 0;}
 	if (match === null) { match = 'eq';}
@@ -152,13 +157,13 @@ function refresh_show() {
 		var obj=jQuery(this);
 		var level = obj.attr('haj_subscriber_level');
 		var match = obj.attr('haj_subscriber_match');
-		if (check_level(level,s_level,match)) {
+		if (check_level(level,match)) {
 			obj.removeClass("haj_hide");
 		} else {
 			obj.addClass("haj_hide");
 		}
 	});
-	if (s_id) {
+	if (params.id) {
 		jQuery('#menu_signup').addClass("haj_hide");
 	}
 }

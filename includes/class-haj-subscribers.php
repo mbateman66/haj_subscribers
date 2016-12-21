@@ -95,14 +95,19 @@ class Haj_Subscribers {
 	 */
 	private function load_dependencies() {
 
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-MCAPI.php';
+
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-haj-subscribers-loader.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-haj-subscribers-i18n.php';
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-haj-subscribers-admin.php';
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-haj-subscribers-public.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-haj-subscribers-shared.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-haj-subscribers-options.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-haj-subscribers-db.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-haj-subscribers-subscriber.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-haj-subscribers-mailchimp.php';
+
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-haj-subscribers-admin.php';
+
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-haj-subscribers-public.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-haj-subscribers-shortcodes.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-haj-subscribers-forms.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-haj-subscribers-ajax.php';

@@ -103,11 +103,14 @@ class Haj_Subscribers_Public {
 
 	private function get_params() {
 		$params = array();
+		$protocol = isset( $_SERVER['HTTPS'] ) ? 'https://' : 'http://';
+		$params['ajax_url']=admin_url('admin-ajax.php',$protocol );
 		$s_id=$_COOKIE['haj_subscriber_id'];
-			$protocol = isset( $_SERVER['HTTPS'] ) ? 'https://' : 'http://';
-			$params['ajax_url']=admin_url('admin-ajax.php',$protocol );
 		if ($s_id) {
-			$params['info']=$this->subscriber->get_by_id($s_id);
+			$info=$this->subscriber->get_by_id($s_id);
+			$params['id'] = $info['id'];
+			$params['level'] = $info['level'];
+			$params['fname'] = $info['fname'];
 		}
 		return($params);
 	}

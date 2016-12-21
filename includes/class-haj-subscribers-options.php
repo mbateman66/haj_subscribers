@@ -22,18 +22,19 @@ class Haj_Subscribers_Options {
 
 	private	$options_defaults=array(
 
-			'download_signup_text'		=> "Sign up now to access the download",
-
 			'menu_signup_enable'		=> 0,
 			'menu_signup_icon_enable'	=> 0,
 			'menu_signup_icon'		=> 'icon-pencil',
 			'menu_signup_text'		=> 'Sign Up',
 
+			'download_signup_text'		=> "Sign up now to access the download",
+
 			'signup_button_text'		=> "Get it now",
 			'download_button_text'		=> "Download",
 			'submit_button_text'		=> "Go",
 
-			'mailchimp_enable'		=> 1,
+			'mailchimp_enable'		=> 0,
+			'mailchimp_double_optin'	=> 0,
 			'mailchimp_apikey'		=> "",
 			'mailchimp_listid'		=> "",
 		);

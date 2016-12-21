@@ -19,10 +19,11 @@ class Haj_Subscribers_Subscriber {
 	private $plugin_name;
 	private $version;
 	private $table = 'haj_subscribers';
-//	private $opts;
+	private $opts;
 	private $db;
 	private $id;
 	private $level;
+	private $info;
 
 	public function __construct( $plugin_name, $version ) {
 		$this->plugin_name = $plugin_name;
@@ -30,7 +31,7 @@ class Haj_Subscribers_Subscriber {
 		$this->id = $_COOKIE['haj_subscriber_id'];
 		$this->level = $_COOKIE['haj_subscriber_level'];
 
-//		$this->opts = new Haj_Subscriber_Options($this->plugin_name, $this->version);
+		$this->opts = new Haj_Subscribers_Options($this->plugin_name, $this->version);
 		$this->db = new Haj_Subscribers_DB($this->plugin_name, $this->version);
 	}
 
@@ -119,7 +120,6 @@ class Haj_Subscribers_Subscriber {
 			$tmp_data['fname']=$fname;
 			$tmp_data['level']=$level;
 			$id = $this->create($tmp_data);
-//			mc_subscribe($tmp_data);
 		} else {
 			// Found one. See if we need to update it
 			$update = 0;
@@ -128,13 +128,25 @@ class Haj_Subscribers_Subscriber {
 			if ($tmp_data['level']<$level) { $update=1; $tmp_data['level']=$level; }
 			if ($update) {
 				$this->update($id,$tmp_data);
-//				mc_subscribe($tmp_data);
 			}
 		}
+		/* Send data externally */
+		$this->do_external($tmp_data);
+		/* Return info */
 		$res=array();
-		$res['s_id']=$id;
-		$res['s_level']=$level;
+		$res['id']=$id;
+		$res['email']=$tmp_data['email'];
+		$res['level']=$tmp_data['level'];
+		$res['fname']=$tmp_data['fname'];
 		return ($res);
+	}
+
+	/* Update all external databases */
+	public function do_external($info) {
+		if ($this->opts->get_option('mailchimp_enable')) {
+			$mc=new Haj_Subscribers_Mailchimp($this->plugin_name,$this->version);
+			$mc->subscribe($info);
+		}
 	}
 
 	public function get_id($atts) {
@@ -142,7 +154,10 @@ class Haj_Subscribers_Subscriber {
 	}
 
 	public function get_level($atts) {
-		return $this->level;
+		if ($this->id) {
+			$info = $this->get_by_id($this->id);
+		}
+		if ($info['level']) { return $info['level']; } else { return 0; }
 	}
 
 	public function check_level($level,$s_level,$match) {
