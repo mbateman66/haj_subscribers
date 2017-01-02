@@ -60,7 +60,11 @@ class Haj_Subscribers_Subscriber {
 	}
 
 	public function is_valid($id) {
-		return $this->db->is_valid($this->table,$id);
+		if ($id) {
+			return $this->db->is_valid($this->table,$id);
+		} else {
+			return false;
+		}
 	}
 
 	private function sanitize($data) {
@@ -149,11 +153,11 @@ class Haj_Subscribers_Subscriber {
 		}
 	}
 
-	public function get_id($atts) {
+	public function get_id() {
 		return $this->id;
 	}
 
-	public function get_level($atts) {
+	public function get_level() {
 		if ($this->id) {
 			$info = $this->get_by_id($this->id);
 		}

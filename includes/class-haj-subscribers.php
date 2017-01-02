@@ -104,6 +104,7 @@ class Haj_Subscribers {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-haj-subscribers-db.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-haj-subscribers-subscriber.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-haj-subscribers-mailchimp.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-haj-subscribers-woocommerce.php';
 
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-haj-subscribers-admin.php';
 
@@ -165,11 +166,20 @@ class Haj_Subscribers {
 		$this->loader->add_filter( 'dlm_can_download',		$plugin_public, 'can_download', 10, 2 );
 		$this->loader->add_filter( 'wp_nav_menu_items',		$plugin_public, 'add_menu_signup', 10, 2 );
 
+		// Forms
 		$plugin_forms = new Haj_Subscribers_Forms( $this->get_plugin_name(), $this->get_version() );
-		$this->loader->add_action( 'wp_footer',			$plugin_forms, 'build_modal_signup_form' );
+		$this->loader->add_action( 'wp_footer',			$plugin_forms, 'build_modal_forms' );
+		$this->loader->add_action( 'widgets_init',		$plugin_forms, 'add_widget_areas' );
+
+		// Ajax
 		$plugin_ajax = new Haj_Subscribers_Ajax( $this->get_plugin_name(), $this->get_version() );
-		$this->loader->add_action( 'wp_ajax_haj_subscribers_do_ajax_request',	$plugin_ajax, 'do_ajax_request' );
+		$this->loader->add_action( 'wp_ajax_haj_subscribers_do_ajax_request',		$plugin_ajax, 'do_ajax_request' );
 		$this->loader->add_action( 'wp_ajax_nopriv_haj_subscribers_do_ajax_request',	$plugin_ajax, 'do_ajax_request' );
+
+		// Woocommerce
+		$plugin_wc = new Haj_Subscribers_Woocommerce( $this->get_plugin_name(), $this->get_version() );
+		$this->loader->add_action( 'woocommerce_checkout_update_order_meta',		$plugin_wc, 'order_status_changed' );
+		$this->loader->add_action( 'woocommerce_order_status_changed',			$plugin_wc, 'order_status_changed' );
 
 	}
 

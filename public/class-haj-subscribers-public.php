@@ -25,7 +25,6 @@ class Haj_Subscribers_Public {
 	private $plugin_name;
 	private $version;
 	private $opts;
-//	private $db;
 	private $shortcodes;
 	private $subscriber;
 
@@ -41,9 +40,9 @@ class Haj_Subscribers_Public {
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
 		$this->opts = new Haj_Subscribers_Options( $this->plugin_name, $this->version );
-//		$this->db = new Haj_Subscribers_DB( $this->plugin_name, $this->version );
 		$this->shortcodes = new Haj_Subscribers_Shortcodes( $this->plugin_name, $this->version );
 		$this->subscriber = new Haj_Subscribers_Subscriber( $this->plugin_name, $this->version );
+
 	}
 
 	/**

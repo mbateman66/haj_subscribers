@@ -55,7 +55,8 @@ class Haj_Subscribers_Mailchimp {
 		$retval - $mcapi->listSubscribe($list_id,$email,$merge_vars,$email_type,$double_optin,$update_existing);
 
 		if ($mcapi->errorCode) { 
-			$msg="Error: ".$mcapi->errorCode;
+			$err="Mailchimp Error: ".$mcapi->errorCode;
+			error_log($err,0);
 			return 0;
 		} else {
 			return 1;

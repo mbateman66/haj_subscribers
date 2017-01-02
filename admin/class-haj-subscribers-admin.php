@@ -164,7 +164,9 @@ class Haj_Subscribers_Admin {
 		$section='buttons'; $section_label='Buttons';
 		$this->create_section($section,$section_label);
 
-		$option='submit_button_text'; $option_label='Submit Button Text'; $option_type='text';
+		$option='submit_button_text_signup'; $option_label='Subscribe Button Text - Signup'; $option_type='text';
+			$this->create_and_register_option($option,$option_label,$section,$option_type);
+		$option='submit_button_text_download'; $option_label='Subscribe Button Text - Download'; $option_type='text';
 			$this->create_and_register_option($option,$option_label,$section,$option_type);
 		$option='signup_button_text'; $option_label='Signup Button Text'; $option_type='text';
 			$this->create_and_register_option($option,$option_label,$section,$option_type);

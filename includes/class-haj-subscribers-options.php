@@ -29,7 +29,8 @@ class Haj_Subscribers_Options {
 
 			'download_signup_text'		=> "Sign up now to access the download",
 
-			'signup_button_text'		=> "Get it now",
+			'submit_button_text_signup'	=> "Heck yes!",
+			'submit_button_text_download'	=> "I want it!",
 			'download_button_text'		=> "Download",
 			'submit_button_text'		=> "Go",
 

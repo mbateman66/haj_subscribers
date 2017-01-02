@@ -23,37 +23,99 @@
         text-align:             center;
 }
 .haj_modal_content {
+        z-index:                1;
         position:               relative;
-        text-align:             left;
+        Xtext-align:             left;
         display:                inline-block;
-        background-color:       #eee;
-        margin:                 15% auto;
-        padding:                20px;
-        border:                 1px solid #333;
-        border-radius:          10px;
+        background-color:       #fff;
+	margin:			0;
+	padding:		0;
+	border:                 5px solid #ff0;
+        Xborder-radius:          10px;
+	top:			20%;
 }
 
-.haj_modal_content #haj_subscribe_form {
-        padding:                30px;
+.haj_modal_before_form {
+	background-color:	#ff0;
+	width:			100%;
+	height:			20px;
+/*
+	border-color:		#999;
+	border-top-style:	solid;
+	border-left-style:	solid;
+	border-right-style:	solid;
+	Xborder-top-left-radius:	10px;
+	Xborder-top-right-radius:10px;
+*/
 }
-.haj_modal_content #haj_signup_form .label {
-        display:                inline-block;
+.haj_modal_after_form {
+	display:		none;
+	background-color:	#0f0;
+	border-color:		#0f0;
+	width:			100%;
+	height:			20px;
+	border-bottom-style:	solid;
+	border-left-style:	solid;
+	border-right-style:	solid;
+	Xborder-bottom-left-radius:	10px;
+	Xborder-bottom-right-radius:10px;
+}
+.haj_subscribe_form_wrapper {
+        padding:                20px;
+	max-width:		350px;
+}
+.haj_modal_content .haj_subscribe_form .info_question {
+	margin-bottom:		10px;
+}
+.haj_modal_content .haj_subscribe_form .info_question input {
+	width:			100%;
+	padding:		8px;
+}
+.haj_modal_content .haj_subscribe_form .label {
+        display:                none;
         width:                  100px;
 }
-.haj_modal_content #haj_signup_form button {
+.haj_modal_content .haj_subscribe_form button {
         display:                block;
         margin:                 20px auto 0px auto;
 }
 
 .haj_modal_close {
         position:               absolute;
-        top:                    3px;
-        right:                  5px;
+        top:                    -2px;
+        right:                  0px;
         cursor:                 pointer;
-        font-size:              14px            !important;
+        font-size:              16px            !important;
         line-height:            1em;
+	color:			#fff;
 }
-#haj_signup_form_message {
-        padding:                10px;
-        text-align:             center;
+.haj_modal_content .widgets_top {
+	margin-bottom:		20px;
+}
+.haj_modal_content .widgets_bottom {
+	margin-top:		20px;
+}
+
+
+.btn-haj {
+	background-color:	#666;			/* Default button color */
+	color:			#fff;			/* Default text color   */
+	display:		inline-block;
+	margin-top:		1em;
+	margin-bottom:		1em;
+	border:			none;
+	padding:		.5em;
+	line-height:		1em;
+	border-radius:		5px;
+	cursor:			pointer;
+}
+.btn-haj:hover {
+	-webkit-filter:         brightness(120%);
+	color:			#fff;
+}
+.btn-haj.btn-signup {
+}
+.btn-haj.btn-submit {
+}
+.btn-haj.btn-download {
 }

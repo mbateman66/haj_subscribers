@@ -42,7 +42,7 @@
 		var signup_menu_a = $('#menu_signup a');
 		signup_menu_a.css( 'cursor', 'pointer');
 		signup_menu_a.click(function($) {
-			do_button('show_form');
+			do_button('show_form_signup');
 		});
 	});
 })( jQuery );
@@ -67,55 +67,73 @@ function do_ajax(what_to_do,contents) {
 		success:                function(data) {
 			document.body.style.cursor = 'default';
 			what_was_done = data.what_was_done;
-			set_message(data.message,0);
 			if (what_was_done == 'subscribe') {
+				form_modal_basename = 'haj_modal_subscribe_form_';
 				params.id=data.contents.id;
 				params.level=data.contents.level;
 				params.fname=data.contents.fname;
 				update_cookies();
-				do_hide_form();
+				do_hide_form(form_modal_basename+'signup');
+				do_hide_form(form_modal_basename+'download');
 				refresh_show();
 			}
 		},
 		error:          function(errorThrown) {
 			document.body.style.cursor = 'default';
-			set_message(errorThrown,1);
 		}
 	});
 }
 
 function update_cookies () {
-	cookie_timeout = 24*180;
+	cookie_timeout = 24*180;	// 180 days
 	haj_subscriber_set_cookie('haj_subscriber_id',params.id,cookie_timeout);
 }
 
 /* Do Button */
 function do_button(button) {
-	set_message("");
+	form_modal_basename = 'haj_modal_subscribe_form_';
 	if (jQuery('#'+button).attr('disabled')) { return; }
-	if (button==            'submit_signup') {
-		do_subscribe();
-	} else if (button==     'show_form') {
-		do_show_form();
-	} else if (button==     'hide_form') {
-		do_hide_form();
+	if (button==            'submit_subscribe_signup') {
+		modal_name='signup';
+		do_subscribe(form_modal_basename+modal_name);
+	} else if (button==     'show_form_signup') {
+		modal_name='signup';
+		do_show_form(form_modal_basename+modal_name);
+	} else if (button==     'hide_form_signup') {
+		modal_name='signup';
+		do_hide_form(form_modal_basename+modal_name);
+	} else if (button==     'submit_subscribe_download') {
+		modal_name='download';
+		do_subscribe(form_modal_basename+modal_name);
+	} else if (button==     'show_form_download') {
+		modal_name='download';
+		do_show_form(form_modal_basename+modal_name);
+	} else if (button==     'hide_form_download') {
+		modal_name='download';
+		do_hide_form(form_modal_basename+modal_name);
 	} else if (url=jQuery('#'+button).attr('href')) {
 		window.location.href=url;
 	}
 	do_google_analytics(button);
+	return false;
 };
 
-/* Show and hide signup form */
-function do_show_form() {
-	jQuery('#haj_signup_form_modal').fadeIn(500);
+/* Show and hide subscribe forms*/
+function do_show_form(form_container_name) {
+	jQuery('#'+form_container_name).fadeIn(500);
 }
-function do_hide_form() {
-	jQuery('#haj_signup_form_modal').fadeOut(200);
+function do_hide_form(form_container_name) {
+	jQuery('#'+form_container_name).fadeOut(200);
+}
+function noop(e) {
+	if (!e) var e = window.event; 
+	e.cancelBubble = true;
+	if (e.stopPropagation) e.stopPropagation();
 }
 
 /* Process a new subscription */
-function do_subscribe() {
-	if (collect_info() ){
+function do_subscribe(form_container_name) {
+	if (collect_info(form_container_name) ){
 		contents=new Object();
 		contents.info=info;
 		do_ajax('subscribe',contents);
@@ -169,25 +187,17 @@ function refresh_show() {
 }
 
 /* Collect info from signup form */
-function collect_info() {
+function collect_info(form_container_name) {
 	info=new Object();
 	msg="";
 	ret=1;
-	jQuery('#haj_signup_form input, #haj_signup_form select').each(function(index){
+	jQuery('#'+form_container_name+' input').each(function(index){
 		var input = jQuery(this);
 		var key=input.attr('name');
 		var val=input.val();
-		var required=input.attr('required');
-		if (! validate_info_field(key,val,required)) {
-			$msg="Please enter a valid "+input.attr('prompt')
-			set_signup_form_message($msg,1);
-			ret=0;
-			return(false);
-		} else {
-			set_signup_form_message("Success!",0);
-		}
 		info[key]=val;
 	});
+console.log(JSON.stringify(info));
 	return (ret);
 }
 
@@ -206,26 +216,16 @@ function validate_info_field(key,val,required) {
 	}
 }
 
-/* Set signup form message */
-function set_signup_form_message(message,error) {
-	jQuery('#haj_signup_form_message').text(message);
-	if (error) {
-		jQuery('#haj_signup_form_message').addClass('error');
-	} else {
-		jQuery('#haj_signup_form_message').removeClass('error');
-	}
-}
-
 
 /* Send tracking info to Google */
 function do_google_analytics(button) {
+console.log("GA", button, document.location.pathname);
 //		_gaq.push(['_trackEvent', 'Print Intent', document.location.pathname]); //for classic GA
-	ga('send', 'event', button, document.location.pathname); //for Universal GA
+//	ga('send', 'event', button, document.location.pathname); //for Universal GA
+	__gaTracker('send', 'event','button', button); // Use Universal GA from Monster Insights
 }
 
-/* Set toaster message */
-function set_message(message,error) {
-}
+
 
 
 
