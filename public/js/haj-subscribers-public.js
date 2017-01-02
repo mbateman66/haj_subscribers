@@ -68,13 +68,11 @@ function do_ajax(what_to_do,contents) {
 			document.body.style.cursor = 'default';
 			what_was_done = data.what_was_done;
 			if (what_was_done == 'subscribe') {
-				form_modal_basename = 'haj_modal_subscribe_form_';
 				params.id=data.contents.id;
 				params.level=data.contents.level;
 				params.fname=data.contents.fname;
 				update_cookies();
-				do_hide_form(form_modal_basename+'signup');
-				do_hide_form(form_modal_basename+'download');
+				do_hide_form();
 				refresh_show();
 			}
 		},
@@ -91,26 +89,17 @@ function update_cookies () {
 
 /* Do Button */
 function do_button(button) {
-	form_modal_basename = 'haj_modal_subscribe_form_';
 	if (jQuery('#'+button).attr('disabled')) { return; }
-	if (button==            'submit_subscribe_signup') {
-		modal_name='signup';
-		do_subscribe(form_modal_basename+modal_name);
+	if (button==            'submit_subscribe') {
+		do_subscribe();
 	} else if (button==     'show_form_signup') {
-		modal_name='signup';
-		do_show_form(form_modal_basename+modal_name);
-	} else if (button==     'hide_form_signup') {
-		modal_name='signup';
-		do_hide_form(form_modal_basename+modal_name);
-	} else if (button==     'submit_subscribe_download') {
-		modal_name='download';
-		do_subscribe(form_modal_basename+modal_name);
+		flavor='signup';
+		do_show_form(flavor);
 	} else if (button==     'show_form_download') {
-		modal_name='download';
-		do_show_form(form_modal_basename+modal_name);
-	} else if (button==     'hide_form_download') {
-		modal_name='download';
-		do_hide_form(form_modal_basename+modal_name);
+		flavor='download';
+		do_show_form(flavor);
+	} else if (button==     'hide_form') {
+		do_hide_form();
 	} else if (url=jQuery('#'+button).attr('href')) {
 		window.location.href=url;
 	}
@@ -119,11 +108,19 @@ function do_button(button) {
 };
 
 /* Show and hide subscribe forms*/
-function do_show_form(form_container_name) {
-	jQuery('#'+form_container_name).fadeIn(500);
+function do_show_form(flavor) {
+	jQuery('#haj_subscribe_modal .flavor').each(function(index){
+		var obj=jQuery(this);
+		if (obj.hasClass('flavor-'+flavor)) {
+			obj.show();
+		} else {
+			obj.hide();
+		}
+	});
+	jQuery('#haj_subscribe_modal').fadeIn(500);
 }
-function do_hide_form(form_container_name) {
-	jQuery('#'+form_container_name).fadeOut(200);
+function do_hide_form() {
+	jQuery('#haj_subscribe_modal').fadeOut(200);
 }
 function noop(e) {
 	if (!e) var e = window.event; 
@@ -132,8 +129,8 @@ function noop(e) {
 }
 
 /* Process a new subscription */
-function do_subscribe(form_container_name) {
-	if (collect_info(form_container_name) ){
+function do_subscribe() {
+	if (collect_info() ){
 		contents=new Object();
 		contents.info=info;
 		do_ajax('subscribe',contents);
@@ -187,11 +184,11 @@ function refresh_show() {
 }
 
 /* Collect info from signup form */
-function collect_info(form_container_name) {
+function collect_info() {
 	info=new Object();
 	msg="";
 	ret=1;
-	jQuery('#'+form_container_name+' input').each(function(index){
+	jQuery('#haj_subscribe_modal input').each(function(index){
 		var input = jQuery(this);
 		var key=input.attr('name');
 		var val=input.val();
